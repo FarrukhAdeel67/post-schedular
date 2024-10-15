@@ -1,8 +1,10 @@
-import Image from "next/image"
-import React from "react"
-import HeroImg from "../../assets/heroImg.svg"
-import shareCircleImg from "../../assets/shareCircle.svg"
-import TwitterCard from "../TwitterCard"
+import Image from "next/image";
+import React from "react";
+import HeroImg from "../../assets/heroImg.svg";
+import shareCircleImg from "../../assets/shareCircle.svg";
+import TwitterCard from "../TwitterCard";
+import twitterLogo from "@/assets/twitterLogo.svg";
+import instagramLogo from "@/assets/instagramColoredIcon.svg";
 
 const Hero = () => {
   return (
@@ -16,10 +18,6 @@ const Hero = () => {
           className=" object-cover pt-12"
         />
         <div className=" text-white">
-          <p className="text-left py-4  text-white/65">
-            {" "}
-            <span className="text-white">1</span>/5
-          </p>
           <div className="flex flex-row items-start justify-between gap-4">
             <Image
               src={shareCircleImg}
@@ -34,18 +32,19 @@ const Hero = () => {
                 Connect your social media Channel
               </h1>
               <p className=" text-[#CACACA] text-sm leading-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore
+                Save time and get REAL results on social media. Hootsuite makes
+                it easy.
               </p>
             </div>
           </div>
-          <div className="pt-12">
-            <TwitterCard />
+          <div className="pt-12 flex  gap-3">
+            <TwitterCard title="Twitter" Icon={twitterLogo} />
+            <TwitterCard title="Instagram" Icon={instagramLogo} />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

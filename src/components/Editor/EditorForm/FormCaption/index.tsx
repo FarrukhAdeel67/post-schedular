@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import infoCircle from "@/assets/infoCircle.svg";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 
 const FormCaption = () => {
   const { caption, setCaption } = usePostStore();
