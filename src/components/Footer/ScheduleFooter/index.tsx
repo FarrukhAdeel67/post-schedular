@@ -11,6 +11,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
 import { usePostPreference } from "@/store/usePostPreferenceStore";
+import { useRouter } from "next/navigation";
 
 const ScheduleFooter = () => {
   const {
@@ -23,7 +24,7 @@ const ScheduleFooter = () => {
     resetForm,
     dateAndTime,
   } = usePostStore();
-
+  const router = useRouter();
   const { postPreference, setPostPreference } = usePostPreference();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const { user } = useUser();
@@ -72,6 +73,7 @@ const ScheduleFooter = () => {
       }
       setLoading(false);
       toast.success("Content posted successfully");
+      router.push("/posts");
     } catch (error) {
       console.error("Error posting content:", error);
       toast.error("Error posting content");
