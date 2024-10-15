@@ -1,27 +1,35 @@
 "use client";
-import ButtonGroup from "@/components/GroupButton";
-import usePostsStore from "@/store/usePostsStore";
+import React, { useEffect, Suspense, lazy } from "react";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect } from "react";
-import PostsGrid from "./PostsGrid";
-import fetchUserPosts from "@/lib/apiHooks";
+import usePostsStore from "@/store/usePostsStore";
 import { usePostPreference } from "@/store/usePostPreferenceStore";
+import fetchUserPosts from "@/lib/apiHooks";
+import ButtonGroup from "@/components/GroupButton";
+
+const PostsGrid = lazy(() => import("./PostsGrid"));
+
+const LoadingPosts = () => (
+  <div className="flex justify-center items-center h-64">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+  </div>
+);
 
 const PostsClient = () => {
   const { setPosts, posts } = usePostsStore();
   const { user } = useUser();
   const userId = user?.id;
   const { postPreference } = usePostPreference();
-  console.log("post Preference", postPreference);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetchUserPosts(
-        userId,
-        postPreference as "twitterPost" | "instagramPost"
-      );
-      if (res) {
-        setPosts(res);
+      if (userId) {
+        const res = await fetchUserPosts(
+          userId,
+          postPreference as "twitterPost" | "instagramPost"
+        );
+        if (res) {
+          setPosts(res);
+        }
       }
     };
 
@@ -33,7 +41,9 @@ const PostsClient = () => {
       <div className="flex justify-center mt-2 w-full">
         <ButtonGroup />
       </div>
-      <PostsGrid posts={posts} />{" "}
+      <Suspense fallback={<LoadingPosts />}>
+        <PostsGrid posts={posts} />
+      </Suspense>
     </div>
   );
 };
