@@ -13,16 +13,14 @@ interface InstaPostCardProps {
   title: string;
   caption: string;
   image: File | null;
-  formattedDate: string;
-  formattedTime: string;
+  dateAndTime: string;
 }
 
 const InstaPostCard: React.FC<InstaPostCardProps> = ({
   title,
   caption,
   image,
-  formattedDate,
-  formattedTime,
+  dateAndTime,
 }) => {
   const { user } = useUser();
 
@@ -122,6 +120,9 @@ const InstaPostCard: React.FC<InstaPostCardProps> = ({
             </p>
             <p className="text-[#657786] text-sm font-normal ">
               <p className=" whitespace-pre-wrap">{formatText(caption)}</p>
+            </p>
+            <p className="text-[#657786] text-sm font-normal mt-2 ">
+              Scheduled Date & Time: {dateAndTime}
             </p>
           </div>
         </div>

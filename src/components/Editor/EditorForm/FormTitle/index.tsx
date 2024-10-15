@@ -7,7 +7,7 @@ import xLogoPink from "@/assets/xLogoPink.svg.svg";
 import penIcon from "@/assets/penIcon.svg";
 import instagramIcon from "@/assets/instagram.svg";
 import instagramColoredIcon from "@/assets/instagramColoredIcon.svg";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 
 const FormTitle = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -15,10 +15,10 @@ const FormTitle = () => {
     title,
     setTitle,
     resetForm,
-    setPreviewTweet,
-    previewTweet,
-    previewInsta,
-    setPreviewInsta,
+    settwitterPost,
+    twitterPost,
+    instagramPost,
+    setinstagramPost,
   } = usePostStore();
   const handleEditClick = () => {
     setIsEditing(true);
@@ -67,15 +67,15 @@ const FormTitle = () => {
             <span className="text-xs text-white/80">CHANNELS</span>
             <div className="flex items-center justify-between gap-4">
               <Image
-                src={previewTweet ? xLogoPink : xLogo}
-                onClick={() => setPreviewTweet(!previewTweet)}
+                src={twitterPost ? xLogoPink : xLogo}
+                onClick={() => settwitterPost(!twitterPost)}
                 className="cursor-pointer"
                 width={38}
                 alt="x logo"
               />
               <Image
-                src={previewInsta ? instagramColoredIcon : instagramIcon}
-                onClick={() => setPreviewInsta(!previewInsta)}
+                src={instagramPost ? instagramColoredIcon : instagramIcon}
+                onClick={() => setinstagramPost(!instagramPost)}
                 className="cursor-pointer "
                 width={38}
                 alt="insta logo"

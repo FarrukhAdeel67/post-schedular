@@ -5,15 +5,15 @@ import infoCircleIcon from "@/assets/infoCircleIcon.svg";
 import Image from "next/image";
 import TweetCard from "./TweetCard";
 import InstaPostCard from "./InstaPostCard";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 
 const PostPreview = () => {
-  const { previewTweet, previewInsta } = usePostStore();
+  const { twitterPost, instagramPost } = usePostStore();
   return (
     <div className=" w-full md:w-2/5 relative bg-grayLightFull flex items-center justify-center py-4">
-      {previewTweet ? (
+      {twitterPost ? (
         <TweetCard />
-      ) : previewInsta ? (
+      ) : instagramPost ? (
         <InstaPostCard />
       ) : (
         <div className="flex flex-col items-center justify-center">

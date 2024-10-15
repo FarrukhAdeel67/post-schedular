@@ -2,7 +2,7 @@
 import React from "react";
 import photoIcon from "@/assets/photoIcon.svg";
 import Image from "next/image";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 
 const FormUpload = () => {
   const { setImage } = usePostStore();

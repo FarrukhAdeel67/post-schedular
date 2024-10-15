@@ -1,48 +1,20 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import xLogo from "@/assets/xLogo.svg";
-import userIcon from "@/assets/profileImg.svg";
 import verifiedBadge from "@/assets/verifiedBadge.svg";
 import verticalDots from "@/assets/verticalDots.svg";
 import heartReactIcon from "@/assets/heartReactIcon.svg";
 import commentIcon from "@/assets/commentIcon.svg";
 import shareIcon from "@/assets/shareIcon.svg";
 import savedIcon from "@/assets/savedIcon.svg";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 import { useUser } from "@clerk/nextjs";
 import instagramIcon from "@/assets/instagram.svg";
-// format text to add links and hashtags
-export const formatText = (text: string) => {
-  const words = text.split(" ");
+import { formatText } from "@/components/FormatText";
 
-  return words.map((word, index) => {
-    if (word.startsWith("#")) {
-      return (
-        <span key={index} className="text-blue-500">
-          {word}{" "}
-        </span>
-      );
-    } else if (word.startsWith("http") || word.includes(".com")) {
-      return (
-        <a
-          key={index}
-          href={word}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500"
-        >
-          {word}{" "}
-        </a>
-      );
-    } else {
-      return <span key={index}>{word} </span>;
-    }
-  });
-};
 const InstaPostCard = () => {
   const { user } = useUser();
-  const { caption, image, formattedDate, formattedTime } = usePostStore();
+  const { caption, image } = usePostStore();
 
   return (
     <div className="mockup-browser bg-base-300 ">
@@ -102,10 +74,6 @@ const InstaPostCard = () => {
                 height={200}
               />
             )}
-
-            {/* <p className="text-[#657786] text-sm font-normal ">
-              {formattedDate} · {formattedTime}
-            </p> */}
             <hr className="my-1" />
             <div className="flex justify-between items-center gap-4">
               <div className="flex justify-center items-center gap-6">

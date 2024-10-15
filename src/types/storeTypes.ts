@@ -1,38 +1,23 @@
 //  Purpose: Define the types for the store
-export interface TweetState {
+export interface PostState {
   title: string
   caption: string
-  previewTweet: boolean
-  image: File | null
-  formattedDate: string
-  formattedTime: string
-  showOnboardModal: boolean
-
-  previewInsta:boolean
-  setPreviewInsta: (previewInsta: boolean) => void
-
-
+  twitterPost: boolean
+  image: File | null 
+  dateAndTime:string
+  instagramPost:boolean
+  setinstagramPost: (instagramPost: boolean) => void
   setTitle: (title: string) => void
   setCaption: (caption: string) => void
-  setPreviewTweet: (previewTweet: boolean) => void
+  settwitterPost: (twitterPost: boolean) => void
   setImage: (image: File) => void
   setDateAndTime: (date: Date) => void
-  setShowOnboardModal: (showOnboardModal: boolean) => void
   resetForm: () => void
 }
 
 
 
-
-export interface MultiplePostsManager {
-  tweets: TweetState[]
-  
-  addTweet: (tweet: TweetState) => void
-  updateTweet: (index: number, updatedTweet: Partial<TweetState>) => void
-  deleteTweet: (index: number) => void
-  
-  getTweet: (index: number) => TweetState | undefined
-  getAllTweets: () => TweetState[]
-  
-  clearAllTweets: () => void
+export interface PostPreferenceState {
+  postPreference: string;
+  setPostPreference: (postPreference:string) => void;
 }

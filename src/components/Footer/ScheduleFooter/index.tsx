@@ -6,75 +6,77 @@ import arrowDown from "@/assets/arrowDown.svg";
 import calendarIcon from "@/assets/calendarIcon.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
 import { useState } from "react";
-import usePostToTikTok from "@/hooks/usePost";
 import toast from "react-hot-toast";
-import useMultiplePostsStore from "@/store/usePostsStore";
+import { useUser } from "@clerk/nextjs";
+import { usePostPreference } from "@/store/usePostPreferenceStore";
 
 const ScheduleFooter = () => {
   const {
     title,
     caption,
-    previewTweet,
-    previewInsta,
+    twitterPost,
+    instagramPost,
     image,
-    formattedDate,
-    formattedTime,
-    setTitle,
-    setCaption,
-    setPreviewTweet,
-    setPreviewInsta,
-    setImage,
     setDateAndTime,
-    setShowOnboardModal,
     resetForm,
+    dateAndTime,
   } = usePostStore();
-  const { addTweet } = useMultiplePostsStore();
 
+  const { postPreference, setPostPreference } = usePostPreference();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
+  const { user } = useUser();
+  const [loading, setLoading] = useState<boolean>(false);
   const handleDateChange = (date: Date) => {
     setDateAndTime(date);
     setSelectedDate(date);
   };
 
-  const { postToTikTok, loading } = usePostToTikTok({
-    onSuccess: (data) => {
-      toast.success("Content posted successfully");
-      console.log("Content posted successfully:", data);
-    },
-    onError: (error: any) => {
-      const message = error.response.data.error.message;
-      toast.error(message);
-      console.error("Error posting to TikTok:", error);
-    },
-  });
-
-  const handlePost = () => {
+  const handlePost = async () => {
+    if (!user) {
+      toast.error("User not authenticated");
+      return;
+    }
     const newTweet = {
       title,
       caption,
-      previewTweet,
-      previewInsta,
-      image,
-      formattedDate,
-      formattedTime,
+      twitterPost,
+      instagramPost,
+      image: null,
+      dateAndTime,
       showOnboardModal: false,
-      setTitle,
-      setCaption,
-      setPreviewTweet,
-      setPreviewInsta,
-      setImage,
-      setDateAndTime,
-      setShowOnboardModal,
-      resetForm,
+      userId: user.id,
     };
-    addTweet(newTweet);
 
-    resetForm();
-    toast.success("Content posted successfully");
-    console.log("New tweet added successfully!", newTweet);
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/addPost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTweet),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to post the content");
+      }
+
+      const data = await response.json();
+      resetForm();
+      if (instagramPost) {
+        setPostPreference("instagramPost");
+      } else if (twitterPost) {
+        setPostPreference("twitterPost");
+      }
+      setLoading(false);
+      toast.success("Content posted successfully");
+    } catch (error) {
+      console.error("Error posting content:", error);
+      toast.error("Error posting content");
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,8 +102,11 @@ const ScheduleFooter = () => {
             />
           </div>
           <button
+            disabled={caption ? false : true}
             onClick={handlePost}
-            className=" flex items-center justify-between text-white  bg-primary-gradient rounded-md"
+            className={`flex items-center justify-between text-white ${
+              caption === "" ? "bg-gray-400" : "bg-primary-gradient "
+            }  rounded-md`}
           >
             <p className="px-4 py-2 text-white">
               {loading ? "Posting..." : "Schedule"}

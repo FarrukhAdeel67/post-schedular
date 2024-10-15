@@ -2,51 +2,21 @@
 import React from "react";
 import Image from "next/image";
 import xLogo from "@/assets/xLogo.svg";
-import tiktokLogo from "@/assets/tiktokLogo.png";
-import userIcon from "@/assets/profileImg.svg";
 import verifiedBadge from "@/assets/verifiedBadge.svg";
-// import usePostStore from "@/store/usePostStore";
 import { useUser } from "@clerk/nextjs";
 import verticalDots from "@/assets/verticalDots.svg";
-import usePostStore from "@/store/usePostStore";
+import { usePostStore } from "@/store/usePostStore";
+import { formatText } from "@/components/FormatText";
 
 const TweetCard = () => {
   const { user } = useUser();
-  const { caption, image, formattedDate, formattedTime } = usePostStore();
-
-  // format text to add links and hashtags
-  const formatText = (text: string) => {
-    const words = text.split(" ");
-
-    return words.map((word, index) => {
-      if (word.startsWith("#")) {
-        return (
-          <span key={index} className="text-blue-500">
-            {word}{" "}
-          </span>
-        );
-      } else if (word.startsWith("http") || word.includes(".com")) {
-        return (
-          <a
-            key={index}
-            href={word}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500"
-          >
-            {word}{" "}
-          </a>
-        );
-      } else {
-        return <span key={index}>{word} </span>;
-      }
-    });
-  };
+  const { caption, image, dateAndTime } = usePostStore();
+  const date = dateAndTime.toLocaleString();
 
   return (
     <div className="mockup-browser bg-base-300 ">
       <div className="mockup-browser-toolbar">
-        <div className="input">https://postcomposer.com</div>
+        <div className="input">https://twitter.com/posts</div>
       </div>
       <div className="flex justify-center">
         <div className="p-5 my-5 w-[25rem] bg-white text-black rounded-2xl">
@@ -95,9 +65,7 @@ const TweetCard = () => {
                 height={200}
               />
             )}
-            <p className="text-[#657786] text-sm font-normal ">
-              {formattedDate} · {formattedTime}
-            </p>
+            <p className="text-[#657786] text-sm font-normal ">{date}</p>
             <hr className="my-1" />
             <div className="flex items-center justify-start gap-3">
               <p className="text-[#657786] text-sm font-normal ">

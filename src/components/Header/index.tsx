@@ -45,6 +45,7 @@ const Header = () => {
           >
             Posts{" "}
           </Link>
+
           <Link
             href="/terms"
             className={`px-3 text-md font-medium cursor-pointer hover:text-slate-300 ${
